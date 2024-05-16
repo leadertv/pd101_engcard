@@ -4,6 +4,8 @@
 
 Протестировать бота вы можете в Telegram [DEMO ENGCARD-BOT](https://t.me/pd101_engcard_bot)
 
+![Окно бота](https://i.imgur.com/yFwrROn.png)
+
 ## Функциональность
 
 ### Взаимодействие с ботом
