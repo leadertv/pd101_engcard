@@ -86,7 +86,7 @@ def handle_text(message):
 def add_word_handler(message):
     bot.send_message(message.chat.id, "Введите слово и его перевод через двоеточие (например, слово : перевод):")
 
-
+# Функция добавления слова
 def add_word(message):
     user_id = message.chat.id
     text = message.text.strip()
@@ -108,11 +108,11 @@ def add_word(message):
     bot.send_message(user_id, "Слово успешно добавлено!")
     user_state[user_id] = STATE_NONE
 
-
+# Обработчик удаления слов
 def delete_word_handler(message):
     bot.send_message(message.chat.id, "Введите слово или его перевод для удаления:")
 
-
+# Функция удаления слова
 def handle_delete_word(message):
     user_id = message.chat.id
     word_to_delete = message.text.strip()
@@ -122,14 +122,14 @@ def handle_delete_word(message):
         bot.send_message(user_id, "Такого слова нет, вы можете удалять только свои слова.")
     user_state[user_id] = STATE_NONE
 
-
+# Функция старта викторины
 def start_quiz_handler(message):
     user_id = message.chat.id
     init_user_data(user_id)  # Инициализация данных пользователя
     user_stats[user_id]['in_quiz'] = True
     next_quiz_question(message)
 
-
+# Функция вывода новых слов и вопроса
 def next_quiz_question(message):
     user_id = message.chat.id
     all_words = db.get_all_words() + db.get_user_words(user_id)
@@ -147,7 +147,7 @@ def next_quiz_question(message):
     user_quiz_data[user_id] = {'word': word, 'correct_translation': correct_translation}
     bot.send_message(user_id, f"Что означает слово '{word}'?", reply_markup=keyboard)
 
-
+# Логика викторины
 def quiz_answer_handler(message):
     user_id = message.chat.id
     if message.text == "Завершить викторину 🚫":
@@ -169,25 +169,25 @@ def quiz_answer_handler(message):
         bot.send_message(user_id, "🔴 Неправильно! Попробуйте еще раз.")
         user_stats[user_id]['incorrect'] += 1
 
-
+# Функция вывода статистики
 def show_stats(message):
     user_id = message.chat.id
     stats = user_stats.get(user_id, {'correct': 0, 'incorrect': 0})
     bot.send_message(message.chat.id, f"Угадано слов: {stats['correct']}\nОшибки: {stats['incorrect']}")
 
-
+# Защита от дурака т.е. от незадокумментированных действий в боте.
 def handle_unrecognized_text(message):
     bot.send_message(message.chat.id, "Я не понимаю, что вы хотите. Пожалуйста, воспользуйтесь меню.",
                      reply_markup=main_menu())
 
-
+# Функция выхода в главное меню, можно было сделать иначе но и так сойдёт для учёбы.
 def main_menu():
     keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
     buttons = ["📗 Добавить слово", "❌ Удалить слово", "🎲 Начать викторину", "📈 Статистика"]
     keyboard.add(*buttons)
     return keyboard
 
-
+# Поллинг бота, создание таблиц.
 if __name__ == '__main__':
     db.create_tables()  # Создание таблиц в базе данных если их нет. База должна уже быть.
     db.add_test_data()  # Добавление тестовых данных (закомментируйте после страта, чтобы не плодить дубликаты в БД)
