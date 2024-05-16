@@ -59,7 +59,8 @@ psycopg2-binary
 
 ### Настройка базы данных
 
-Создайте и настройте базу данных PostgreSQL (замените значения на свои). Используйте следующие параметры подключения:
+Создайте и настройте базу данных PostgreSQL (замените значения на свои).
+Используйте следующие параметры подключения:
 
 ```plaintext
 DB_NAME = 'engcard'
@@ -72,7 +73,8 @@ DB_HOST = 'localhost'
 
 ### Настройка Telegram Bot
 
-Создайте Telegram-бота с помощью [BotFather](https://t.me/BotFather) и получите токен. Затем замените значение токена в файле `bot.py`:
+Создайте Telegram-бота с помощью [BotFather](https://t.me/BotFather) и получите токен.
+Затем замените значение токена в файле `bot.py`:
 
 ```python
 TOKEN = 'your_telegram_bot_token_here'
